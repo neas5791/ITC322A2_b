@@ -123,6 +123,19 @@ public class Polynomial {
 		return null;
 	}
 
+	public double evaluate(double x){
+		Lister list = new Lister(head);
+		
+		double result = 0;
+		
+		while (list.hasNext())
+			list.next();
+			
+		
+		
+		return 0;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
