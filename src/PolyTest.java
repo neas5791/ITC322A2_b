@@ -5,7 +5,28 @@ import java.util.Arrays;
 
 public class PolyTest {
 	
+	
+/*	static Polynomial add(Polynomial p2){
+			
+			PolyNode answer = ;
+			answer = PolyNode.listCopy(this.head);
+			
+			for (PolyNode cursor = p2.head; cursor != null; cursor = cursor.getLink())
+				answer.insert(cursor.getCoeff(), cursor.getExp());
+			
+			return new Polynomial(answer);
+
+	}*/
+	
+	
+	
 	public static void main (String[] args){
+		
+		PolyNode a = null;
+		a.insert(2., 5);
+		a.insert(2, 4);
+		System.out.println(a);
+		
 		double[][] ref = new double[][]{{2,2},{-3,1},{1,0}};
 		
 		PolyNode p1 = new PolyNode(ref);
