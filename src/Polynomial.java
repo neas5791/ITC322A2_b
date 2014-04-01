@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 public class Polynomial {
@@ -100,17 +101,82 @@ public class Polynomial {
 	 * @param p2 is the second polynomial expression to add
 	 * @return a new polynomial linked list
 	 */
-	public Polynomial add(Polynomial p2){
+	public Polynomial Add(Polynomial p2){
 		
-		PolyNode newHead;
-		newHead = PolyNode.ListCopy(this.head);
+		PolyNode answer;
+		answer = PolyNode.ListCopy(this.head);
 		
 		for (PolyNode cursor = p2.head; cursor != null; cursor = cursor.getLink())
-			newHead.insert(cursor.getCoeff(), cursor.getExp());
+			answer.insert(cursor.getCoeff(), cursor.getExp());
 		
-		return new Polynomial(newHead);
+		return new Polynomial(answer);
 	}
 
+	/**
+	 * Evaluates the product of polynomials
+	 * @param factor is the polynomial expression to multiply by
+	 * @return the product of two polynomial
+	 */
+	public Polynomial Multiply(Polynomial factor){
+		// The logic provide in the below code represents this worked example
+		//	term1 	= (x^2 + 7x + 10)
+		//	term2 	= (x^2 + 4x + 3)
+		//
+		//	answer 	= term1 * term2
+		//         	= (x^2 + 7x + 10)(x^2 + 4x + 3)
+		//         	= x^2(x^2 + 4x + 3) + 7x(x^2 + 4x + 3) + 10(x^2 + 4x + 3)
+		//		   	= (x^4) + (4x^3) + (3x^2) + (7x^3) + (28x^2) + (21x) + (10x^2) + (40x) + (30)
+		// the last line is shows the polynomial terms which would be inserted into the PolyNode answer
+		// **The PolyNode collects like terms upon insertion
+		
+		PolyNode term1, term2; 
+		PolyNode answer = null;
+		
+		double co;
+		double ex;
+		
+		for ( term1 = head; term1 != null; term1 = term1.getLink()) {
+			for (term2 = factor.head; term2!= null; term2 = term2.getLink()){
+				
+				co = term1.getCoeff()* term2.getCoeff();
+				ex = term1.getExp()+term2.getExp();
+				
+				if (answer == null)
+					answer = new PolyNode(co, ex, null);
+				else
+					answer.insert(co, ex);
+			}
+		}
+		return new Polynomial(answer);
+	}
+
+	/**
+	 * Static method finds the derivative of polynomial object passed in
+	 * @param f is the object which represents the polynomial equation
+	 * @return the derivative of the polynomial expression
+	 */
+	public static Polynomial Derivative(Polynomial f){
+		PolyNode derivative = null;
+		
+		double co;
+		double ex;
+		
+		for (PolyNode cursor = f.head; cursor != null; cursor = cursor.getLink()){
+			
+			co = cursor.getCoeff()*cursor.getExp();
+			ex = cursor.getExp()-1;
+			
+			if (co == 0)
+				continue;
+			else if(derivative == null)
+				derivative = new PolyNode(co, ex, null);
+			else
+				derivative.insert(co, ex);
+		}
+
+		return new Polynomial (derivative);
+	}
+	
 	/**
 	 * Gets the polynomial List which is constructed after reading
 	 * file with multiple equation lines 
@@ -123,17 +189,24 @@ public class Polynomial {
 		return null;
 	}
 
-	public double evaluate(double x){
-		Lister list = new Lister(head);
+	/**
+	 * Evaluates the polynomial expression given for a given value.
+	 * @param x the value for which to evaluate the polynomial
+	 * @return the result of substituting the givn value into the polynomial expression
+	 */
+	public double Evaluate(double x){
+		double result;
 		
-		double result = 0;
+		if (head == null)
+			throw new NoSuchElementException ("This polynomial expression doesn't exist, please add an equation!");
 		
-		while (list.hasNext())
-			list.next();
-			
+		result = 0;
 		
+		for (PolyNode cursor = head; cursor != null; cursor = cursor.getLink()){
+			result += (cursor.getCoeff()*(Math.pow(x, cursor.getExp())));
+		}
 		
-		return 0;
+		return result;
 	}
 	
 	/* (non-Javadoc)

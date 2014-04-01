@@ -7,6 +7,17 @@ public class PolyNode {
 	private PolyNode link;
 	
 	/**
+	 * Constructor initializes object with default values
+	 * @postcondition new object is created
+	 *  
+	 */
+	public PolyNode(){
+		coeff = 0;
+		exp = 0;
+		link = null;
+	}
+	
+	/**
 	 * Constructs new Polynomial Linked list from equation passed from system.in
 	 * @param equation the polynomial expression to be placed into the linked list
 	 */
@@ -36,9 +47,15 @@ public class PolyNode {
 	 * @postcondition the object is 
 	 */
 	public PolyNode(double co, double ex, PolyNode next){
+		
+		// capture illegal zero inputs
+		if (co == 0)
+			throw new IllegalArgumentException ("The coefficient can not be zero pal!");
+		
 		coeff = co; 
 		exp = ex;
 		link = next;
+		
 	}
 	
 	/**
@@ -70,8 +87,10 @@ public class PolyNode {
 	 * @postcondition the list is increased in size and the new term is placed ascending order of exponent magnitude.
 	 */
 	public void insert(double co, double ex){
-
-		// need to add some logic to deal with removing nodes with zero coefficients!!
+		
+		if (co == 0)
+			return;
+		
 		if (exp == ex) {
 			coeff += co;
 			return;
