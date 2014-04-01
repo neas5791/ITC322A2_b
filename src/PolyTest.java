@@ -5,11 +5,23 @@ import java.io.FileNotFoundException;
 public class PolyTest {
 	
 	public static void main (String[] args){
-		PolyNode p1 = new PolyNode("2x^2+3x-1");
+		double[][] ref = new double[][]{{2,2},{3,1},{1,0}};
 		
-		//for (PolyNode cursor = p1; cursor != null; cursor = cursor.getLink())
-			//System.out.print(cursor);
+		PolyNode p1 = new PolyNode(ref);
 		
+		/*PolyNode p2 = new PolyNode(0,2);
+		p2.insert(1, 1);
+		p2.insert(2, 0);
+		
+		for (PolyNode c = p2; c!= null; c = c.getLink())
+			System.out.println(c);
+		
+		Polynomial po1 = new Polynomial("3x^2-7x-6");
+		
+		System.out.println(po1);
+		*/
+		
+		/** all this stuff below works **/
 		System.out.println();
 		Polynomial pl1 = new Polynomial("x^2-3x+12");
 		Polynomial pl2 = new Polynomial(p1);
@@ -57,6 +69,6 @@ public class PolyTest {
 		}
 		
 		
-		
+		/* Just un comment it */
 	}
 }

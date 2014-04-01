@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-
 public class Polynomial {
 	private PolyNode head;
 	private List<Polynomial> polynomialList;
@@ -19,7 +18,19 @@ public class Polynomial {
 	 * @postcondition Polynomial is constructed as a linked list. manyNodes is incremented to count the
 	 */
 	public Polynomial (String equation){
-		head = new PolyNode(equation);
+		
+		List<Double []> polynomial = Formatter.FormatStripper(equation);
+		if (polynomial != null){
+			boolean isHead = true;
+			for (Double[] x : polynomial){
+				if (isHead) {
+					head = new PolyNode(x[0],x[1]);
+					isHead = false;
+				}
+				else
+					head.insert(x[0], x[1]);
+			}
+		}
 	}
 	
 	/**
@@ -45,7 +56,8 @@ public class Polynomial {
 
 		List<String> equationList = LineReader(file);
 		if (equationList.size() == 1){
-			head = new PolyNode(equationList.get(0));
+			Polynomial temp = new Polynomial(equationList.get(0));
+			head = temp.head;
 			return;
 		}
 		polynomialList = new ArrayList<Polynomial>();
@@ -104,7 +116,7 @@ public class Polynomial {
 	public Polynomial Add(Polynomial p2){
 		
 		PolyNode answer;
-		answer = PolyNode.ListCopy(this.head);
+		answer = PolyNode.listCopy(this.head);
 		
 		for (PolyNode cursor = p2.head; cursor != null; cursor = cursor.getLink())
 			answer.insert(cursor.getCoeff(), cursor.getExp());
@@ -142,7 +154,7 @@ public class Polynomial {
 				ex = term1.getExp()+term2.getExp();
 				
 				if (answer == null)
-					answer = new PolyNode(co, ex, null);
+					answer = new PolyNode(co, ex);
 				else
 					answer.insert(co, ex);
 			}
@@ -169,7 +181,7 @@ public class Polynomial {
 			if (co == 0)
 				continue;
 			else if(derivative == null)
-				derivative = new PolyNode(co, ex, null);
+				derivative = new PolyNode(co, ex);
 			else
 				derivative.insert(co, ex);
 		}

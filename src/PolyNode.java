@@ -1,4 +1,4 @@
-import java.util.List;
+//import java.util.List;
 
 public class PolyNode {
 	
@@ -12,32 +12,35 @@ public class PolyNode {
 	 *  
 	 */
 	public PolyNode(){
-		coeff = 0;
-		exp = 0;
-		link = null;
+		// leaving it to java to initialize to primitive default values
+		// ie doubles as 0 and objects as null :)
 	}
 	
-	/**
-	 * Constructs new Polynomial Linked list from equation passed from system.in
-	 * @param equation the polynomial expression to be placed into the linked list
-	 */
-	public PolyNode(String equation){
-		
-		List<String []> polynomial = Formatter.FormatStripper(equation);
-		if (polynomial != null){
-			boolean isHead = true;
-			for (String[] x : polynomial){
-				if (isHead) {
-					coeff = Double.parseDouble(x[0]);
-					exp = Double.parseDouble(x[1]);
-					isHead = false;
-				}
-				else
-					insert(Double.parseDouble(x[0]), Double.parseDouble(x[1]));
-			}
+	public PolyNode(double co, double ex){
+		// trapping the zero coefficients, should a zero be parsed the object will be initialized with
+		// default values.
+		if (co != 0){
+			coeff = co;
+			exp = ex;
 		}
 	}
 	
+	public PolyNode(double[]... array){
+		boolean isHead = true;
+		for (double[] term : array){
+			if (term[0] != 0) {			// if the coefficient is zero then do nothing
+				if (isHead) {
+					coeff = term[0];
+					exp = term[1];
+					isHead = false;
+				}
+				else {
+					insert(term[0], term[1]);
+				}
+			}
+	 	}
+	}
+
 	/**
 	 * Constructor initializes object with coefficient and exponent values
 	 * @param co is the coefficient of the polynomial term
@@ -46,16 +49,16 @@ public class PolyNode {
 	 * 
 	 * @postcondition the object is 
 	 */
-	public PolyNode(double co, double ex, PolyNode next){
-		
-		// capture illegal zero inputs
+	private PolyNode(double co, double ex, PolyNode next){
+	// used by insertBefore() insertAfter() and listCopy()	
+		// Just in-case an unruly zero coefficient gets parsed
+		// although they shouldn't as this is a private method
 		if (co == 0)
-			throw new IllegalArgumentException ("The coefficient can not be zero pal!");
+			ex = 0;
 		
 		coeff = co; 
 		exp = ex;
 		link = next;
-		
 	}
 	
 	/**
@@ -64,7 +67,7 @@ public class PolyNode {
 	 * @param ex is the exponent factor of the polynomial term
 	 * @postcondition the list is increased in size and the new node is placed before the current node
 	 */
-	protected void insertBefore(double co, double ex){
+	private void insertBefore(double co, double ex){
 		link = new PolyNode(coeff, exp, link);
 		coeff = co;
 		exp = ex;
@@ -76,7 +79,7 @@ public class PolyNode {
 	 * @param ex is the exponent factor of the polynomial term
 	 * @postcondition the list is increased in size and the new term is placed after the current term
 	 */
-	protected void insertAfter(double co, double ex){
+	private void insertAfter(double co, double ex){
 		link = new PolyNode(co, ex, link);
 	}
 	
@@ -100,6 +103,7 @@ public class PolyNode {
 			if (link == null)
 				insertAfter(co,ex);
 			else
+				// keep trying recursively
 				link.insert(co,ex);
 		}
 		else
@@ -145,8 +149,7 @@ public class PolyNode {
 		return false;
 	}
 
-
-	public static PolyNode ListCopy(PolyNode source){
+	public static PolyNode listCopy(PolyNode source){
 		
 		PolyNode copyHead;
 		PolyNode copyTail;
