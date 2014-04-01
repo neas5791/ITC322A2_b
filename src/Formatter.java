@@ -13,8 +13,8 @@ public class Formatter {
 		String[] terms;
 		
 		// to simplify splitting changed all negative to +-
-		// (?<!\\^) makes sure that any exponent values are not changed
-		equation = equation.replaceAll("(?<!\\^)[-]", "+-"); 
+		// (?<!\\^|^) makes sure that any exponent values or leading negatives are not changed 
+		equation = equation.replaceAll("(?<!\\^|^)[-]", "+-"); 
 		// split the polynomial expression into individual terms
 		terms = equation.split("\\+"); 
 		
@@ -62,14 +62,12 @@ public class Formatter {
 		// String values are then parse as double values to the double[]
 		// and adds these to the List<String
 		String[] temp = new String[2];
-		Double[] monomial = new Double[2];
+		Double[] monomial;
 
 		for (int i = 0; i< terms.length ; i++){
 			// splits the string into coefficient and exponent strings
 			temp = terms[i].split("[a-zA-Z]+\\^?");
 			monomial = new Double[] {Double.parseDouble(temp[0]),Double.parseDouble(temp[1])};
-			//monomial[0] = Double.parseDouble(temp[i]);
-			//monomial[1] = Double.parseDouble(temp[i+1]);
 			stripedEquation.add(monomial);
 		}
 

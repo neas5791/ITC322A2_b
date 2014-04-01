@@ -162,6 +162,13 @@ public class Polynomial {
 		return new Polynomial(answer);
 	}
 
+	public void InsertTerm(String equation){
+		for (Double[] x : Formatter.FormatStripper(equation)){
+				head.insert(x[0], x[1]);
+		}
+		
+	}
+	
 	/**
 	 * Static method finds the derivative of polynomial object passed in
 	 * @param f is the object which represents the polynomial equation

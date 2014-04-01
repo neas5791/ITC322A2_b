@@ -1,11 +1,12 @@
 import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 
 public class PolyTest {
 	
 	public static void main (String[] args){
-		double[][] ref = new double[][]{{2,2},{3,1},{1,0}};
+		double[][] ref = new double[][]{{2,2},{-3,1},{1,0}};
 		
 		PolyNode p1 = new PolyNode(ref);
 		
@@ -21,42 +22,51 @@ public class PolyTest {
 		System.out.println(po1);
 		*/
 		
-		/** all this stuff below works **/
-		System.out.println();
+		//System.out.println();
 		Polynomial pl1 = new Polynomial("x^2-3x+12");
 		Polynomial pl2 = new Polynomial(p1);
 		
-		System.out.println("p(x)          =   " + pl1);
-		System.out.println("q(x)          =   " + pl2);
+		char ch = 'a';
+		System.out.printf("%s(x)          =   %s\n", ch++, pl1);
+		System.out.printf("%s(x)          =   %s\n", ch++, pl2);
 		
+		pl1.InsertTerm("-3X^4");
+		ch = 'a';
+		System.out.printf("%s(x)          =   %s\n", ch++, pl1);
+		
+		ch = 'a';
 		//create a new polynomial
 		Polynomial pl3;
 		pl3 = pl1.Add(pl2);
 		
 		//System.out.println("\nThe sum of p(x) and q(x) is" );
-		System.out.println("p(x) + q(x)   =   " + pl3);
+		System.out.printf("%s(x) + %s(x)   =   %s\n", ch++, ch++, pl3);
 		
+		ch ='a';
 		//System.out.println("\nThe product of p(x) and q(x) is" );
-		System.out.println("p(x) * q(x)   =   " + pl1.Multiply(pl2));
+		System.out.printf("%s(x) * %s(x)   =   %s\n", ch++, ch++, pl1.Multiply(pl2));
 		
-		//System.out.println("\nThe product of p(x) and q(x) is" );
-		System.out.println("p'(x)         =   " + Polynomial.Derivative(pl1.Multiply(pl2)));
+		ch='a';
+		//System.out.println("\nThe derivative of a(x) " );
+		System.out.printf("%s'(x)         =   %s\n", ch++, pl1 );
+
+		clearConsole();
 		
 		try 
 		{
 			FileReader f = new FileReader("test.txt");
 			Polynomial fileread = new Polynomial(f);
-			char c = 'b';
+			ch = 'c' ;
 			if(fileread.getPolynomialList() != null){
 				for (Polynomial x : fileread.getPolynomialList())
-					System.out.printf("%s(x)          =   %s\n", c++, x );
+					System.out.printf("%s(x)          =   %s\n", ch++, x );
 			}
 			
-			c = 'b';
+			ch = 'c';
 			String str = "";
 			if(fileread.getPolynomialList() != null){
 				for (Polynomial x : fileread.getPolynomialList()){
-					str = String.format("%s(5)          =>  %40s   =   %.2f\n", c++, x, x.Evaluate(5.0) );
+					str = String.format("%s(5)          =>  %40s   =   %.2f\n", ch++, x, x.Evaluate(5.0) );
 					
 					str = str.replaceAll("[x]", "5");
 					System.out.print(str);
@@ -67,8 +77,13 @@ public class PolyTest {
 		{
 			fnf.printStackTrace();
 		}
-		
-		
-		/* Just un comment it */
+	}
+	
+	static void clearConsole(){
+		char c = '\n';
+		int length = 50;
+		char[] chars = new char[length];
+		Arrays.fill(chars, c);
+		System.out.print(String.valueOf(chars));
 	}
 }
