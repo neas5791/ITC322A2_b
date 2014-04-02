@@ -3,7 +3,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
 import polynomial.Polynomial;
 
 
@@ -60,11 +62,15 @@ public class Driver {
 				break;
 			default:
 				quit = !quit;
+				System.out.println("See you later :) hope you had fun!!");
 				break;
 			}
 		}while (!quit);
 	}
 	
+	/**
+	 * Static method to demonstrate creating a polynomial object from string input.
+	 */
 	public static void createPolynomial(){
 		String expression;
 		System.out.print("Please enter a polynomial expression at the prompt.\n\n"
@@ -83,6 +89,10 @@ public class Driver {
 
 	}
 	
+	/**
+	 * Static method to demonstrate reading polynomial strings from a file and creating 
+	 * polynomial objects.
+	 */
 	public static void readPolynomialFile(){
 		System.out.print("This method opens a text file and reads in the Polynomial expressions.\n\n"
 				+ "Each line represents a new polynomial expression.\n"
@@ -103,6 +113,7 @@ public class Driver {
 		
 		try 
 		{
+			// FileReader f is the file name (including path) to open
 			FileReader f = new FileReader("test.txt");
 			Polynomial fileread = new Polynomial(f);
 			char ch = 'C' ;
@@ -110,23 +121,27 @@ public class Driver {
 			System.out.println("The file contained " + fileread.getPolynomialList().size() + " lines of equations\n"
 					+ "These are listed below\n");
 			
+			// if the file had no readable polynomials the list could be null
 			if(fileread.getPolynomialList() != null){
 				for (Polynomial x : fileread.getPolynomialList())
 					System.out.printf("%s(x)          =   %s\n", ch++, x );
 			}
 			System.out.println();
 		}
-		catch (FileNotFoundException fnf)
+		catch (FileNotFoundException e)
 		{
-			fnf.printStackTrace();
+			e.printStackTrace();
 		}
 			
 		suspend("Press enter to return to main menu....");
 
 	}
 	
+	/**
+	 * Static method to demonstrate polynomial addition using the Polynomial.Add() implementation 
+	 */
 	public static void sumPolynomials(){
-
+		// This char is for function identification ie C(x) 
 		char ch = 'C' ;
 		System.out.println("Find the sum of the following polynomials");
 		System.out.printf("%s(x)          =   %s\n", ch++, POLYNOMIAL1);
@@ -139,8 +154,11 @@ public class Driver {
 		suspend("Press enter to return to main menu....");
 	}
 	
+	/**
+	 * Static method to demonstrate polynomial multiplication using the Polynomial.Multiply() implementation
+	 */
 	public static void multiplyPolynomial(){
-	
+		// This char is for function identification ie C(x)	
 		char ch = 'C' ;
 		System.out.println("Find the product of the following polynomials");
 		System.out.printf("%s(x)          =   %s\n", ch++, POLYNOMIAL1);
@@ -153,12 +171,29 @@ public class Driver {
 		suspend("Press enter to return to main menu....");
 	}
 	
+	/**
+	 * Static method evaluates a polynomial equation for a given decimal value
+	 */
 	public static void evaluatePolynomial(){
-		double value;
+		// value will be the figure substituted into the polynomial
+		double value = 0;
+		// This char is for function identification ie C(x)		
 		char ch = 'C' ;
 		System.out.println("Evaluate a polynomial for a given input value\n"
 				+ "Enter the value of x: ");
-		value = scanner.nextDouble();
+		// run the input in a loop so that we can capture any illegal input such as letters
+		boolean test = true;
+		do{
+			try{
+				// Read value from the console input
+				value = scanner.nextDouble();
+				test = false;
+			} catch(InputMismatchException e){
+				System.out.println("You must input a number! please try again\nEnter the value of x: ");
+				test = true;;
+				scanner.next();
+			}
+		}while(test);
 		
 		System.out.printf("%s(x)          =   %s\n", ch, POLYNOMIAL1);
 		System.out.printf("%s(%.2f)       =   %.2f\n", ch, value,  POLYNOMIAL1.Evaluate(value));
@@ -166,7 +201,6 @@ public class Driver {
 		System.out.println();
 			
 		suspend("Press enter to return to main menu....");
-		
 	}
 	
 	public static void derivePolynomial(){
