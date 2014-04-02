@@ -1,4 +1,4 @@
-//import java.util.List;
+package polynomial;
 
 public class PolyNode {
 	

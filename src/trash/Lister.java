@@ -1,4 +1,6 @@
+package trash;
 import java.util.NoSuchElementException;
+import polynomial.PolyNode;
 
 
 public class Lister {
