@@ -115,15 +115,36 @@ public class Polynomial {
 	 */
 	public Polynomial Add(Polynomial p2){
 		
-		PolyNode answer;
-		answer = PolyNode.listCopy(this.head);
-		
+		// Copies this list to a new node
+		PolyNode answer = PolyNode.listCopy(this.head);
+
+		// Inserts the Polynomial node objects into answer object
 		for (PolyNode cursor = p2.head; cursor != null; cursor = cursor.getLink())
 			answer.insert(cursor.getCoeff(), cursor.getExp());
 		
+		// Returns a new Polynomial object constructed with the answer node 
 		return new Polynomial(answer);
 	}
-
+	
+	@SuppressWarnings("unused")
+	private Polynomial Add_V2(Polynomial p2){
+		// the implemented Add() method makes use of the polyNode ListCopy() 
+		// I choose that method over this one as it looks neater and is perhaps
+		// clearer to understand
+		
+		// This method directly interacts takes control of the 
+		PolyNode answer = new PolyNode(this.head.getCoeff(), this.head.getExp());
+		
+		for (PolyNode cursor = this.head.getLink(); cursor != null; cursor = cursor.getLink())
+			answer.insert(cursor.getCoeff(), cursor.getExp());
+		
+		if (p2 != null)
+			for (PolyNode cursor = p2.head; cursor != null; cursor = cursor.getLink())
+				answer.insert(cursor.getCoeff(), cursor.getExp());
+		
+		return new Polynomial(answer);
+	}
+	
 	/**
 	 * Evaluates the product of polynomials
 	 * @param factor is the polynomial expression to multiply by
@@ -242,5 +263,6 @@ public class Polynomial {
 	
 	/********************************************************************************************************/	
 
+	
 	
 }

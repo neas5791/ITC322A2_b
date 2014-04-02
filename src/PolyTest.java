@@ -22,10 +22,10 @@ public class PolyTest {
 	
 	public static void main (String[] args){
 		
-		PolyNode a = null;
-		a.insert(2., 5);
-		a.insert(2, 4);
-		System.out.println(a);
+		
+		Polynomial a = new Polynomial(new PolyNode(3,5));
+		Polynomial b = a.Add(new Polynomial(new PolyNode(2, 4)));
+		System.out.println(b);
 		
 		double[][] ref = new double[][]{{2,2},{-3,1},{1,0}};
 		
@@ -71,7 +71,7 @@ public class PolyTest {
 		//System.out.println("\nThe derivative of a(x) " );
 		System.out.printf("%s'(x)         =   %s\n", ch++, pl1 );
 
-		clearConsole();
+		clearConsole(0);
 		
 		try 
 		{
@@ -100,10 +100,10 @@ public class PolyTest {
 		}
 	}
 	
-	static void clearConsole(){
+	static void clearConsole(int lines){
 		char c = '\n';
-		int length = 50;
-		char[] chars = new char[length];
+		//int length = lines;
+		char[] chars = new char[lines];
 		Arrays.fill(chars, c);
 		System.out.print(String.valueOf(chars));
 	}

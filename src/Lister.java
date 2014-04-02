@@ -1,8 +1,7 @@
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public class Lister implements Iterator {
+public class Lister {
 	PolyNode last;
 	PolyNode current;
 	
@@ -10,12 +9,10 @@ public class Lister implements Iterator {
 		this.current = head;
 	}
 
-	@Override
 	public boolean hasNext() {
 		return (current != null);
 	}
 
-	@Override
 	public PolyNode next() {
 		last = current;
 
@@ -26,7 +23,6 @@ public class Lister implements Iterator {
 		return last;
 	}
 
-	@Override
 	public void remove() {
 		throw new UnsupportedOperationException ("No remove operation!");
 	}
